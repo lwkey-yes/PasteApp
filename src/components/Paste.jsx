@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react"; // Import useState
 import { removeFromPastes } from "../redux/pasteSlice";
 import { FormatDate } from "../utlis/formatDate";
+import { Link } from "react-router-dom";
 
 const Paste = () => {
   const pastes = useSelector((state) => state.paste.pastes);
@@ -15,10 +16,12 @@ const Paste = () => {
   };
 
   // Filter pastes based on search term (by title or content)
-  const filteredPastes = pastes.filter((paste) =>
-    paste.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredPastes = pastes.filter(
+    (paste) =>
+      paste.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      paste.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  
   return (
     <div className="w-full h-full py-10 max-w-[1200px] mx-auto px-5 lg:px-0">
       <div className="flex flex-col gap-y-3">
@@ -60,12 +63,12 @@ const Paste = () => {
                         className="p-2 rounded-[0.2rem] bg-white border border-[#c7c7c7]  hover:bg-transparent group hover:border-blue-500"
                         // onClick={() => toast.error("Not working")}
                       >
-                        <a href={`/?pasteId=${paste?._id}`}>
+                        <Link to={`/?pasteId=${paste?._id}`} className="button-link">
                           <PencilLine
                             className="text-black group-hover:text-blue-500"
                             size={20}
                           />
-                        </a>
+                        </Link>
                       </button>
                       <button
                         className="p-2 rounded-[0.2rem] bg-white border border-[#c7c7c7]  hover:bg-transparent group hover:border-pink-500"
@@ -78,12 +81,13 @@ const Paste = () => {
                       </button>
 
                       <button className="p-2 rounded-[0.2rem] bg-white border border-[#c7c7c7]  hover:bg-transparent group hover:border-orange-500">
-                        <a href={`/pastes/${paste?._id}`} target="_blank">
+                      <Link to={`/pastes/${paste?._id}`} className="button-link">
+                    
                           <Eye
                             className="text-black group-hover:text-orange-500"
                             size={20}
                           />
-                        </a>
+                        </Link>
                       </button>
                       <button
                         className="p-2 rounded-[0.2rem] bg-white border border-[#c7c7c7]  hover:bg-transparent group hover:border-green-500"
